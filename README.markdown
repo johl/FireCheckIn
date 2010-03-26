@@ -18,3 +18,5 @@ About this source code
 ======================
 
 This source code for the Google App Engine application written with Kay was released in the hope that it may be helpful for others. You may want to change the name of the application in app.yaml and set your OAuth settings ind firecheckin/views.py if you want to try it out.
+
+Actually, firecheckin/views.py is where all the goodness happens. You should start reading there.

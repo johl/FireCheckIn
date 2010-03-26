@@ -35,7 +35,10 @@ try:
 except:
     """
     Here's the place to include your configuration.
-    Get your keys, secrets, and callback URLs 
+    Your first step is to register your app.
+    Register your app at Foursquare here: http://foursquare.com/oauth/
+    Register your app at Fire Eagle here: https://fireeagle.yahoo.net/developer/create
+    Get the keys, secrets, and callback URLs for your application
     from Fire Eagle and Foursquare and fill them in below.
     """
     # Configuration for Fire Eagle
