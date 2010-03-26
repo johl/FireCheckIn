@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FireCheckIn</title>
+<style type="text/css">
+body {
+    font-size: 100%;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #AAA;
+    background-color: #0785AB;
+    font-size: 2.5em;
+    padding: 50px;
+}
+a { color: #8A07AB; text-decoration: none; }
+.title { color: #FFF; font-size: 150%; }
+#boxxyBG { display: none; position: absolute; background: #000; opacity: 0.7; -moz-opacity: 0.7; -khtml-opacity: 0.7; filter: alpha(opacity=40); width: 100%; height: 100%; top: 0; left: 0; z-index: 99; }
+#boxxyBOX { display: none; position: absolute; background: #fff; color: #000; font-size: 18px; text-align: center; border: 10px solid #111; top: 70px; z-index: 100; margin-left: 40px; }
+.boxxyX { font-size: 12px; color: #ddd; padding: 4px 0; border-top: 1px solid #636D61; background: #778574; }
+.footer { align: center; font-size: 18px; color: #fff;}
+span.logo {
+  float: left; 
+  margin: 0 0.5em 0 0; 
+  }
+</style>
+<script type="text/javascript">
+function $(v) { return(document.getElementById(v)); }
+function $S(v) { return($(v).style); }
+function agent(v) { return(Math.max(navigator.userAgent.toLowerCase().indexOf(v),0)); }
+function isset(v) { return((typeof(v)=='undefined' || v.length==0)?false:true); }
+function XYwin(v) { var z=agent('msie')?Array(document.body.clientHeight,document.body.clientWidth):Array(window.innerHeight,window.innerWidth); return(isset(v)?z[v]:z); }
+
+function boxxyTOG() { document.onclick=function(){ $S('boxxyBG').display='none'; $S('boxxyBOX').display='none'; document.onclick=function(){}; }; }
+function boxxyBOX(v,b) { setTimeout("boxxyTOG()",100); $S('boxxyBG').height=XYwin(0)+'px'; $S('boxxyBG').display='block'; $('boxxyBOX').innerHTML=v; $S('boxxyBOX').left=Math.round((XYwin(1)-b)/2)+'px'; $S('boxxyBOX').width=b+'px'; $S('boxxyBOX').display='block'; }
+</script>
+</head>
+<body>
+    {% if request.user.is_anonymous() %}
+      <p><span class="logo"><img src="/media/images/tag.png" /></span>
+          This is FireCheckIn, a simple tool to sync your check-ins at <a href="http://www.foursquare.com/">Foursquare</a> to <a href="http://fireeagle.yahoo.net/">Fire Eagle</a>.
+          </p><p>How about trying it out? Just <a href="{{ create_login_url() }}">log in with your Google account</a> and then connect to Fire Eagle and Foursquare.</p><p>To connect your accounts, we use <a href="http://oauth.net/">OAuth</a>, a protocol designed to keep users safe and cause headaches to developers, so we'll never know your password.
+    </p> 
+      <a href="{{ create_login_url() }}">login</a>
+    {% else %}
+      <p><span class="logo"><img src="/media/images/tag.png" /></span>Why, hello there! Good to see you here!</p>
+      <p>
+      {% if not fireeagle_connected %}
+      <a href="fe_connect/">Connect with Fire Eagle</a><br/>
+      {% else %}
+      You are successfully connected to Fire Eagle.<br/>
+      {% endif %}
+      {% if not foursquare_connected %}
+      <a href="fs_connect/">Connect with Foursquare</a><br/>
+      {% else %}
+      You are successfully connected to Foursquare.<br/>
+      {% endif %}
+      </p>
+      {% if foursquare_connected and fireeagle_connected %}
+      <p>Your Foursquare check-ins will be synced to Fire Eagle automatically, or you can update <a href="sync/">now</a>.</p>
+      {% endif %}
+      <a href="{{ create_logout_url() }}">logout</a>
+    {% endif %}
+    <div id="boxxyBG"></div>
+    <div id="boxxyBOX" onmousedown="document.onclick=function(){};" onmouseup="setTimeout('boxxyTOG()',1);"></div>
+    <br />
+    <div align="center">
+    <a class="footer" href="#" onclick="boxxyBOX('<h2>About FireCheckIn</h2><div align=\'left\'><blockquote>FireCheckIn was written by <a href=\'http://www.johl.io/\'>Jens Ohlig</a>.<br/>Any questions can be sent to <a href=\'mailto:support@firecheckin.com\'>support@firecheckin.com</a>.</blockquote><blockquote>It runs on <a href=\'http://appengine.google.com/\'>Google App Engine</a> and is proudly written in Python, using the <a href=\'http://code.google.com/p/kay-framework/\'>Kay framework</a>, which is awesome.<img width=\'200\' src=\'/media/images/girl.png\' /></blockquote><blockquote>Further magic comes from <a href=\'http://github.com/wiseman/foursquare-python\'>foursquare-python</a>  and <a href=\'http://github.com/SteveMarshall/fire-eagle-python-binding\'>fire-eagle-python-binding</a>. Oh, and the very nifty <a href=\'http://oauth.googlecode.com/svn/code/python/oauth/oauth.py\'>oauth.py</a> by <a href=\'http://leahculver.com/\'>Leah Culver</a> was helpful, too.</blockquote></div>','600'); return false;">About</a><a>&nbsp;✿&nbsp;</a><a class="footer" href="#" onclick="boxxyBOX('<h2>Our Privacy Policy</h2><div align=\'left\'><blockquote>You trust us with your location data and with access to your Foursquare and Fire Eagle accounts. We take this responsibility <strong>very serious</strong>.</blockquote><blockquote>We\'ll keep your location data <strong>only as long as we need it</strong> to update your Fire Eagle account.</blockquote><blockquote>As you log in with your Google account, we have access to your username, but <strong>not your password</strong>.<br/><br/>Any questions can be sent to <a href=\'mailto:support@firecheckin.com\'>support@firecheckin.com</a>.<br/><br/>If you are sure you want us to delete everything we know about you, <a href=\'/deleteme/\'>you can make us forget all your data</a>. After that you can and should revoke permissions you have given to this app. You can do that for <a href=\'http://foursquare.com/settings\'>Foursquare here</a> and for <a href=\'http://fireeagle.yahoo.net/my/apps\'>Fire Eagle here</a>.</blockquote></div>','600'); return false;">Privacy</a>
+    </div>
+</body>
+</html>

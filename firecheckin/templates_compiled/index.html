@@ -1,0 +1,45 @@
+from __future__ import division
+from jinja2.runtime import LoopContext, TemplateReference, Macro, Markup, TemplateRuntimeError, missing, concat, escape, markup_join, unicode_join, to_string, TemplateNotFound
+name = '/index.html'
+
+def root(context, environment=environment):
+    l_create_logout_url = context.resolve('create_logout_url')
+    l_fireeagle_connected = context.resolve('fireeagle_connected')
+    l_create_login_url = context.resolve('create_login_url')
+    l_foursquare_connected = context.resolve('foursquare_connected')
+    l_request = context.resolve('request')
+    if 0: yield None
+    yield u'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">\n<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n<title>FireCheckIn</title>\n<style type="text/css">\nbody {\n    font-size: 100%;\n    font-family: Helvetica, Arial, sans-serif;\n    color: #AAA;\n    background-color: #0785AB;\n    font-size: 2.5em;\n    padding: 50px;\n}\na { color: #8A07AB; text-decoration: none; }\n.title { color: #FFF; font-size: 150%; }\n#boxxyBG { display: none; position: absolute; background: #000; opacity: 0.7; -moz-opacity: 0.7; -khtml-opacity: 0.7; filter: alpha(opacity=40); width: 100%; height: 100%; top: 0; left: 0; z-index: 99; }\n#boxxyBOX { display: none; position: absolute; background: #fff; color: #000; font-size: 18px; text-align: center; border: 10px solid #111; top: 70px; z-index: 100; margin-left: 40px; }\n.boxxyX { font-size: 12px; color: #ddd; padding: 4px 0; border-top: 1px solid #636D61; background: #778574; }\n.footer { align: center; font-size: 18px; color: #fff;}\nspan.logo {\n  float: left; \n  margin: 0 0.5em 0 0; \n  }\n</style>\n<script type="text/javascript">\nfunction $(v) { return(document.getElementById(v)); }\nfunction $S(v) { return($(v).style); }\nfunction agent(v) { return(Math.max(navigator.userAgent.toLowerCase().indexOf(v),0)); }\nfunction isset(v) { return((typeof(v)==\'undefined\' || v.length==0)?false:true); }\nfunction XYwin(v) { var z=agent(\'msie\')?Array(document.body.clientHeight,document.body.clientWidth):Array(window.innerHeight,window.innerWidth); return(isset(v)?z[v]:z); }\n\nfunction boxxyTOG() { document.onclick=function(){ $S(\'boxxyBG\').display=\'none\'; $S(\'boxxyBOX\').display=\'none\'; document.onclick=function(){}; }; }\nfunction boxxyBOX(v,b) { setTimeout("boxxyTOG()",100); $S(\'boxxyBG\').height=XYwin(0)+\'px\'; $S(\'boxxyBG\').display=\'block\'; $(\'boxxyBOX\').innerHTML=v; $S(\'boxxyBOX\').left=Math.round((XYwin(1)-b)/2)+\'px\'; $S(\'boxxyBOX\').width=b+\'px\'; $S(\'boxxyBOX\').display=\'block\'; }\n</script>\n</head>\n<body>\n    '
+    if context.call(environment.getattr(environment.getattr(l_request, 'user'), 'is_anonymous')):
+        if 0: yield None
+        yield u'\n      <p><span class="logo"><img src="/media/images/tag.png" /></span>\n          This is FireCheckIn, a simple tool to sync your check-ins at <a href="http://www.foursquare.com/">Foursquare</a> to <a href="http://fireeagle.yahoo.net/">Fire Eagle</a>.\n          </p><p>How about trying it out? Just <a href="%s">log in with your Google account</a> and then connect to Fire Eagle and Foursquare.</p><p>To connect your accounts, we use <a href="http://oauth.net/">OAuth</a>, a protocol designed to keep users safe and cause headaches to developers, so we\'ll never know your password.\n    </p> \n      <a href="%s">login</a>\n    ' % (
+            escape(context.call(l_create_login_url)), 
+            escape(context.call(l_create_login_url)), 
+        )
+    else:
+        if 0: yield None
+        yield u'\n      <p><span class="logo"><img src="/media/images/tag.png" /></span>Why, hello there! Good to see you here!</p>\n      <p>\n      '
+        if (not l_fireeagle_connected):
+            if 0: yield None
+            yield u'\n      <a href="fe_connect/">Connect with Fire Eagle</a><br/>\n      '
+        else:
+            if 0: yield None
+            yield u'\n      You are successfully connected to Fire Eagle.<br/>\n      '
+        yield u'\n      '
+        if (not l_foursquare_connected):
+            if 0: yield None
+            yield u'\n      <a href="fs_connect/">Connect with Foursquare</a><br/>\n      '
+        else:
+            if 0: yield None
+            yield u'\n      You are successfully connected to Foursquare.<br/>\n      '
+        yield u'\n      </p>\n      '
+        if (l_foursquare_connected and l_fireeagle_connected):
+            if 0: yield None
+            yield u'\n      <p>Your Foursquare check-ins will be synced to Fire Eagle automatically, or you can update <a href="sync/">now</a>.</p>\n      '
+        yield u'\n      <a href="%s">logout</a>\n    ' % (
+            escape(context.call(l_create_logout_url)), 
+        )
+    yield u'\n    <div id="boxxyBG"></div>\n    <div id="boxxyBOX" onmousedown="document.onclick=function(){};" onmouseup="setTimeout(\'boxxyTOG()\',1);"></div>\n    <br />\n    <div align="center">\n    <a class="footer" href="#" onclick="boxxyBOX(\'<h2>About FireCheckIn</h2><div align=\\\'left\\\'><blockquote>FireCheckIn was written by <a href=\\\'http://www.johl.io/\\\'>Jens Ohlig</a>.<br/>Any questions can be sent to <a href=\\\'mailto:support@firecheckin.com\\\'>support@firecheckin.com</a>.</blockquote><blockquote>It runs on <a href=\\\'http://appengine.google.com/\\\'>Google App Engine</a> and is proudly written in Python, using the <a href=\\\'http://code.google.com/p/kay-framework/\\\'>Kay framework</a>, which is awesome.<img width=\\\'200\\\' src=\\\'/media/images/girl.png\\\' /></blockquote><blockquote>Further magic comes from <a href=\\\'http://github.com/wiseman/foursquare-python\\\'>foursquare-python</a>  and <a href=\\\'http://github.com/SteveMarshall/fire-eagle-python-binding\\\'>fire-eagle-python-binding</a>. Oh, and the very nifty <a href=\\\'http://oauth.googlecode.com/svn/code/python/oauth/oauth.py\\\'>oauth.py</a> by <a href=\\\'http://leahculver.com/\\\'>Leah Culver</a> was helpful, too.</div>\',\'600\'); return false;">About</a><a>&nbsp;\u273f&nbsp;</a><a class="footer" href="#" onclick="boxxyBOX(\'<h2>Our Privacy Policy</h2><div align=\\\'left\\\'><blockquote>You trust us with your location data and with access to your Foursquare and Fire Eagle accounts. We take this responsibility <strong>very serious</strong>.</blockquote><blockquote>We\\\'ll keep your location data <strong>only as long as we need it</strong> to update your Fire Eagle account.</blockquote><blockquote>As you log in with your Google account, we have access to your username, but <strong>not your password</strong>.<br/><br/>Any questions can be sent to <a href=\\\'mailto:support@firecheckin.com\\\'>support@firecheckin.com</a>.<br/><br/>If you are sure you want us to delete everything we know about you, <a href=\\\'/deleteme/\\\'>you can make us forget all your data</a>. After that you can and should revoke permissions you have given to this app. You can do that for <a href=\\\'http://foursquare.com/settings\\\'>Foursquare here</a> and for <a href=\\\'http://fireeagle.yahoo.net/my/apps\\\'>Fire Eagle here</a>.</blockquote></div>\',\'600\'); return false;">Privacy</a>\n    </div>\n</body>\n</html>'
+
+blocks = {}
+debug_info = '1=12&38=13&41=16&43=17&44=21&47=22&49=27&51=28&52=29&54=34&56=35&58=36&60=39&61=40&62=42'

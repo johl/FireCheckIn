@@ -1,0 +1,4 @@
+cron:
+- description: Sync Foursquare check-ins and FireEagle
+  url: /sync/
+  schedule: every 2 minutes
