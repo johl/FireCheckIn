@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC '-//WAPFORUM//DTD XHTML Mobile 1.0//EN' 'http://www.wapforum.org/DTD/xhtml-mobile10.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><title>FireCheckIn</title></head><body>
+    {% if request.user.is_anonymous() %}
+          <img src="/media/images/tag.png" /><br/>This is FireCheckIn, a simple tool to sync your check-ins at <a href="http://www.foursquare.com/">Foursquare</a> to <a href="http://fireeagle.yahoo.net/">Fire Eagle</a>.
+          </p><p>How about trying it out? Just <a href="{{ create_login_url() }}">log in with your Google account</a> and then connect to Fire Eagle and Foursquare.</p><p>To connect your accounts, we use <a href="http://oauth.net/">OAuth</a>, a protocol designed to keep users safe and cause headaches to developers, so we'll never know your password.
+    </p> 
+      <a href="{{ create_login_url() }}">login</a>
+    {% else %}
+      <img src="/media/images/tag.png" /><br/>Why, hello there! Good to see you here!</p>
+      <p>
+      {% if not fireeagle_connected %}
+      <a href="fe_connect/">Connect with Fire Eagle</a><br/>
+      {% else %}
+      You are successfully connected to Fire Eagle.<br/>
+      {% endif %}
+      {% if not foursquare_connected %}
+      <a href="fs_connect/">Connect with Foursquare</a><br/>
+      {% else %}
+      You are successfully connected to Foursquare.<br/>
+      {% endif %}
+      </p>
+      {% if foursquare_connected and fireeagle_connected %}
+      <p>Your Foursquare check-ins will now be synced to Fire Eagle automatically.</p>
+      {% endif %}
+      <a href="{{ create_logout_url() }}">logout</a>
+    {% endif %}
+</body>
+</html>

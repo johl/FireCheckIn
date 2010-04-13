@@ -50,7 +50,7 @@ except:
     FS_CONSUMER_KEY = 'XXXXX'
     FS_CONSUMER_SECRET = 'XXXXX'
 
-def index(request):
+def render_index(request, template):
     """
     Render the single landing page we have in FireCheckIn. Fill in information on the state
     of the connections to Fire Eagle and Foursquare and see if the user is logged in.
@@ -58,7 +58,7 @@ def index(request):
     fireeagle_connected = False
     foursquare_connected = False
     if request.user.is_anonymous():
-        return render_to_response('firecheckin/index.html',  { 'fireeagle_connected': fireeagle_connected,
+        return render_to_response(template,  { 'fireeagle_connected': fireeagle_connected,
                                                  'foursquare_connected': foursquare_connected})
     else:
         if ( Token.gql( "WHERE user = :1", str(request.user) ).get() != None ):
@@ -67,8 +67,14 @@ def index(request):
                   fireeagle_connected = True
               if ( token.fs_token ):
                   foursquare_connected = True
-        return render_to_response('firecheckin/index.html',  { 'fireeagle_connected': fireeagle_connected,
+        return render_to_response(template,  { 'fireeagle_connected': fireeagle_connected,
                                                  'foursquare_connected': foursquare_connected})
+
+def index(request):
+    return render_index(request=request, template="firecheckin/index.html")
+
+def mobile(request):
+    return render_index(request=request, template="firecheckin/mobile.html")
 
 @login_required
 def fe_connect(request):
