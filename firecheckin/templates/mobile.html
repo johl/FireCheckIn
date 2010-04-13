@@ -1,4 +1,12 @@
-<!DOCTYPE html PUBLIC '-//WAPFORUM//DTD XHTML Mobile 1.0//EN' 'http://www.wapforum.org/DTD/xhtml-mobile10.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><title>FireCheckIn</title></head><body>
+<!DOCTYPE html PUBLIC '-//WAPFORUM//DTD XHTML Mobile 1.0//EN' 'http://www.wapforum.org/DTD/xhtml-mobile10.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><style>
+body {
+  font-size: 11px;
+  font-family: Verdana, Arial;
+  color: #393939;
+  font-weight: normal;
+}
+</style>
+<title>FireCheckIn</title></head><body>
     {% if request.user.is_anonymous() %}
           <img src="/media/images/tag.png" /><br/>This is FireCheckIn, a simple tool to sync your check-ins at <a href="http://www.foursquare.com/">Foursquare</a> to <a href="http://fireeagle.yahoo.net/">Fire Eagle</a>.
           </p><p>How about trying it out? Just <a href="{{ create_login_url() }}">log in with your Google account</a> and then connect to Fire Eagle and Foursquare.</p><p>To connect your accounts, we use <a href="http://oauth.net/">OAuth</a>, a protocol designed to keep users safe and cause headaches to developers, so we'll never know your password.

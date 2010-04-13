@@ -9,7 +9,7 @@ def root(context, environment=environment):
     l_foursquare_connected = context.resolve('foursquare_connected')
     l_request = context.resolve('request')
     if 0: yield None
-    yield u"<!DOCTYPE html PUBLIC '-//WAPFORUM//DTD XHTML Mobile 1.0//EN' 'http://www.wapforum.org/DTD/xhtml-mobile10.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><title>FireCheckIn</title></head><body>\n    "
+    yield u"<!DOCTYPE html PUBLIC '-//WAPFORUM//DTD XHTML Mobile 1.0//EN' 'http://www.wapforum.org/DTD/xhtml-mobile10.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><style>\nbody {\n  font-size: 11px;\n  font-family: Verdana, Arial;\n  color: #393939;\n  font-weight: normal;\n}\n</style>\n<title>FireCheckIn</title></head><body>\n    "
     if context.call(environment.getattr(environment.getattr(l_request, 'user'), 'is_anonymous')):
         if 0: yield None
         yield u'\n          <img src="/media/images/tag.png" /><br/>This is FireCheckIn, a simple tool to sync your check-ins at <a href="http://www.foursquare.com/">Foursquare</a> to <a href="http://fireeagle.yahoo.net/">Fire Eagle</a>.\n          </p><p>How about trying it out? Just <a href="%s">log in with your Google account</a> and then connect to Fire Eagle and Foursquare.</p><p>To connect your accounts, we use <a href="http://oauth.net/">OAuth</a>, a protocol designed to keep users safe and cause headaches to developers, so we\'ll never know your password.\n    </p> \n      <a href="%s">login</a>\n    ' % (
@@ -42,4 +42,4 @@ def root(context, environment=environment):
     yield u'\n</body>\n</html>'
 
 blocks = {}
-debug_info = '1=12&2=13&4=16&6=17&7=21&10=22&12=27&14=28&15=29&17=34&19=35&21=36&23=39&24=40&25=42'
+debug_info = '1=12&10=13&12=16&14=17&15=21&18=22&20=27&22=28&23=29&25=34&27=35&29=36&31=39&32=40&33=42'
