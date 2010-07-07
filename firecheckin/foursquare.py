@@ -121,7 +121,7 @@ def_method('authorize',
  
 def_method('access_token',
            server=OAUTH_SERVER,
-           required=['token'],
+           required=['token', 'oauth_verifier'],
            returns='oauth_token',
            url_template=OAUTH_URL_TEMPLATE,
            namespaced=False)

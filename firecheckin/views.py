@@ -28,6 +28,7 @@ import foursquare
 import time, datetime
 import ustimezones
 import rfc822
+import os
 from models import Token
 
 try:
@@ -127,7 +128,7 @@ def fs_connect(request):
   """
   CONSUMER_KEY = FS_CONSUMER_KEY
   CONSUMER_SECRET = FS_CONSUMER_SECRET
-  CALLBACK_URL = FE_CALLBACK_URL
+  CALLBACK_URL = FS_CALLBACK_URL
   credentials = foursquare.OAuthCredentials(CONSUMER_KEY, CONSUMER_SECRET)
   fs = foursquare.Foursquare(credentials)
   request_token = fs.request_token( oauth_callback=CALLBACK_URL )
@@ -150,16 +151,20 @@ def fs_request_token_ready(request):
   CONSUMER_SECRET = FS_CONSUMER_SECRET
   token = Token.gql( "WHERE user = :1", str(request.user) ).get()
   request_values = token.fs_request_token.split("&")
+  env = os.environ['QUERY_STRING'].split("&")
+  for e in env:
+      request_values.append(e)
   values = {}
   for rv in request_values:
       (key, value) = rv.split("=")
       values[key] = value
   oauth_token = oauth.OAuthToken.from_string( token.fs_request_token )
+  oauth_verifier = values['oauth_verifier']
   request_token_key = oauth_token
   request_token_secret = values['oauth_token_secret']
   credentials = foursquare.OAuthCredentials(CONSUMER_KEY, CONSUMER_SECRET)
   fs = foursquare.Foursquare(credentials)
-  user_token = fs.access_token(request_token_key)
+  user_token = fs.access_token(token=request_token_key, oauth_verifier=oauth_verifier)
   credentials.set_access_token(user_token)
   fs_token = "oauth_token_secret=%s&oauth_token=%s" % (request_token_secret, str(user_token))
   token.fs_token = fs_token
